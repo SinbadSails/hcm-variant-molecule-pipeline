@@ -1,0 +1,168 @@
+CHEAHA CLUSTER OPERATIONS GUIDE
+===============================
+
+🚨 CRITICAL: GPU ACCESS REQUIRED FIRST
+=====================================
+
+STEP 1: REQUEST GPU ACCESS (DO THIS IMMEDIATELY)
+------------------------------------------------
+Email: support@cheaha.rc.uab.edu
+Subject: GPU QoS Access Request - HCM Research
+
+Message:
+"Hi,
+I need GPU access for Boltz-2 protein structure prediction research.
+Account: bmainali
+Current QoS: normal  
+Need: amperemedmaxgputres (for A100 nodes)
+Purpose: HCM variant analysis for publication
+Thank you!"
+
+STEP 2: WHILE WAITING - PREPARE WORKSPACE
+=========================================
+
+1. LOGIN TO CHEAHA:
+   ssh bmainali@cheaha.rc.uab.edu
+
+2. NAVIGATE TO YOUR WORKSPACE:
+   cd /data/user/bmainali/hcm-variant-molecule-pipeline
+   
+   (OR wherever your files are located)
+
+3. VERIFY ALL FILES ARE PRESENT:
+   ls -la
+   
+   REQUIRED FILES:
+   - ssl_fix_boltz.sh
+   - boltz_production.job  
+   - submit_hcm_variants.sh
+   - variant_gly584arg.yaml
+   - variant_arg249gln.yaml
+   - domain_variant_gly584arg.yaml
+   - myh7_gly584arg.yaml
+
+4. MAKE SCRIPTS EXECUTABLE:
+   chmod +x ssl_fix_boltz.sh
+   chmod +x boltz_production.job
+   chmod +x submit_hcm_variants.sh
+
+5. VERIFY BOLTZ ENVIRONMENT:
+   source boltz-env/bin/activate
+   which boltz
+   boltz --help
+
+STEP 3: ONCE GPU ACCESS GRANTED
+===============================
+
+1. TEST SSL FIX:
+   source ssl_fix_boltz.sh
+   
+   (Should see: "✅ SSL configured: /etc/pki/tls/certs/ca-bundle.crt")
+
+2. SUBMIT TEST JOB (SINGLE VARIANT):
+   sbatch boltz_production.job variant_gly584arg.yaml
+
+3. CHECK JOB STATUS:
+   squeue -u bmainali
+   
+4. IF SUCCESSFUL, SUBMIT ALL VARIANTS:
+   ./submit_hcm_variants.sh
+
+5. MONITOR PROGRESS:
+   # Check job queue
+   squeue -u bmainali
+   
+   # Watch logs (replace JOBID with actual job ID)
+   tail -f cluster_logs/hcm_JOBID.out
+   
+   # Check for results
+   ls -la results/
+
+STEP 4: RESULTS COLLECTION
+==========================
+
+1. CHECK COMPLETION:
+   ls -la results/
+   
+   EXPECTED DIRECTORIES:
+   - boltz_results_variant_gly584arg_TIMESTAMP/
+   - boltz_results_variant_arg249gln_TIMESTAMP/
+   - boltz_results_domain_variant_gly584arg_TIMESTAMP/
+   - boltz_results_myh7_gly584arg_TIMESTAMP/
+
+2. VERIFY STRUCTURES GENERATED:
+   find results/ -name "*.pdb" -o -name "*.cif"
+
+3. CHECK SUMMARY FILES:
+   cat results/*/SUMMARY.txt
+
+4. COPY RESULTS TO LOCAL MACHINE:
+   # On your local machine:
+   scp -r bmainali@cheaha.rc.uab.edu:/path/to/results ./
+
+TROUBLESHOOTING COMMANDS
+========================
+
+CHECK GPU ACCESS:
+scontrol show partition amperenodes
+
+CHECK YOUR QOS:
+sacctmgr show associations user=$USER
+
+CHECK JOB DETAILS:
+scontrol show job JOBID
+
+CHECK JOB HISTORY:
+sacct -u bmainali --starttime=2024-06-08
+
+VIEW ERROR LOGS:
+cat cluster_logs/hcm_JOBID.err
+
+RESTART FAILED JOB:
+sbatch boltz_production.job variant_NAME.yaml
+
+EMERGENCY CONTACTS
+==================
+Cheaha Support: support@cheaha.rc.uab.edu
+IT Help Desk: (205) 934-4357
+
+EXPECTED TIMELINE
+================
+- GPU access request: 1-3 business days
+- Single job runtime: 30-90 minutes  
+- All 4 variants: 2-6 hours total
+- Results validation: 1 day
+- Ready for publication: 2-3 days
+
+IMPORTANT NOTES
+===============
+1. ALWAYS source ssl_fix_boltz.sh before running boltz
+2. Jobs may queue if cluster is busy - be patient
+3. Check logs if jobs fail - usually SSL or memory issues
+4. Save results immediately - cluster storage is temporary
+5. Keep detailed notes for manuscript methods section
+
+SUCCESS INDICATORS
+==================
+✅ GPU access granted (no QoS errors)
+✅ SSL fix working (no certificate errors)  
+✅ Jobs submit successfully (appear in squeue)
+✅ Structures generated (PDB/CIF files exist)
+✅ Summary files created (validation complete)
+✅ Results transferred safely (backup created)
+
+FAILURE INDICATORS & SOLUTIONS
+===============================
+❌ "QoS not available" → Email support again, CC supervisor
+❌ "SSL certificate failed" → Re-run ssl_fix_boltz.sh
+❌ "GPU memory error" → Reduce batch size or use different partition
+❌ "Module not found" → Check environment setup
+❌ "Permission denied" → Check file permissions with chmod +x
+
+NEXT STEPS AFTER SUCCESS
+========================
+1. Validate structure quality
+2. Compare with RosettaFold predictions  
+3. Draft Boltz-2 validation paper
+4. Update Nature manuscript with convergent evidence
+5. Contact pharma companies with dual-method validation 

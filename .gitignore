@@ -45,6 +45,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+boltz-env/
 
 # Spyder project settings
 .spyderproject
@@ -103,10 +104,19 @@ combined_scores.sc
 *.trr
 
 # Results that are regenerated
-results/figures/*.png
-results/figures/*.pdf
-results/models/
-results/temp/
+results/
+prediction_log.csv
+failures/
+cluster_logs/
+*.out
+*.err
+
+# Boltz-2 specific
+boltz_results*/
+boltz_cache/
+/local/
+*.mol2
+*.sdf
 
 # IDE
 .vscode/
@@ -117,12 +127,18 @@ results/temp/
 # Logs
 *.log
 crash_*.log
+slurm-*.out
+slurm-*.err
 
 # Temporary analysis files
 top*_mutfile.txt
 tiny_mut.txt
 mini_mutfile.txt
 wt_traj
-cluster_logs/
 archive_failed_attempts/
-boltz_results*/
+temp_*/
+
+# Commercial sensitive (exclude after publication)
+# business_development/proprietary/
+# patents/drafts/
+# pharma_contacts/

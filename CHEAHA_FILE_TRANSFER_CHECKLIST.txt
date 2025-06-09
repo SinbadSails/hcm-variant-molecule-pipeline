@@ -1,0 +1,157 @@
+CHEAHA FILE TRANSFER CHECKLIST
+==============================
+
+🚨 ENSURE ALL REQUIRED FILES ARE ON CHEAHA CLUSTER
+==================================================
+
+CRITICAL FILES STATUS CHECK
+===========================
+
+📁 REQUIRED BOLTZ-2 FILES:
+==========================
+[ ] boltz_production.job              - Production Slurm script
+[ ] submit_hcm_variants.sh            - Batch submission system  
+[ ] ssl_fix_boltz.sh                  - SSL certificate fix
+
+📄 REQUIRED VARIANT FILES:
+==========================
+[ ] variant_gly584arg.yaml            - Top priority variant
+[ ] variant_arg249gln.yaml            - Second priority variant
+[ ] domain_variant_gly584arg.yaml     - Domain-specific test
+[ ] myh7_gly584arg.yaml               - Full-length test
+
+📊 OPTIONAL REFERENCE FILES:
+============================
+[ ] MYH7_variants_final_annotated.csv - Full dataset (for reference)
+[ ] MYH7_native.pdb                   - Reference structure  
+[ ] top_20_therapeutic_targets.csv    - Target prioritization
+
+TRANSFER COMMANDS
+=================
+
+FROM LOCAL MACHINE TO CHEAHA:
+------------------------------
+# Navigate to your local project directory first
+cd /path/to/hcm-variant-molecule-pipeline
+
+# Transfer essential Boltz-2 files
+scp boltz_production.job bmainali@cheaha.rc.uab.edu:~/hcm-variant-molecule-pipeline/
+scp submit_hcm_variants.sh bmainali@cheaha.rc.uab.edu:~/hcm-variant-molecule-pipeline/
+scp ssl_fix_boltz.sh bmainali@cheaha.rc.uab.edu:~/hcm-variant-molecule-pipeline/
+
+# Transfer variant files
+scp variant_*.yaml bmainali@cheaha.rc.uab.edu:~/hcm-variant-molecule-pipeline/
+
+# Transfer reference data (optional but recommended)
+scp MYH7_variants_final_annotated.csv bmainali@cheaha.rc.uab.edu:~/hcm-variant-molecule-pipeline/
+scp MYH7_native.pdb bmainali@cheaha.rc.uab.edu:~/hcm-variant-molecule-pipeline/
+
+ALTERNATIVE: BULK TRANSFER
+==========================
+# Transfer entire project (excludes results/logs via .gitignore)
+rsync -avz --exclude-from=.gitignore ./ bmainali@cheaha.rc.uab.edu:~/hcm-variant-molecule-pipeline/
+
+VERIFICATION ON CHEAHA
+======================
+# Login to Cheaha
+ssh bmainali@cheaha.rc.uab.edu
+
+# Navigate to project directory
+cd ~/hcm-variant-molecule-pipeline
+
+# Check all required files exist
+ls -la boltz_production.job
+ls -la submit_hcm_variants.sh  
+ls -la ssl_fix_boltz.sh
+ls -la variant_*.yaml
+
+# Make scripts executable
+chmod +x boltz_production.job
+chmod +x submit_hcm_variants.sh
+chmod +x ssl_fix_boltz.sh
+
+# Test Boltz environment
+source boltz-env/bin/activate
+which boltz
+
+DIRECTORY STRUCTURE ON CHEAHA
+==============================
+hcm-variant-molecule-pipeline/
+├── boltz_production.job           ✅ Ready for submission
+├── submit_hcm_variants.sh         ✅ Batch processor  
+├── ssl_fix_boltz.sh               ✅ SSL fix
+├── variant_gly584arg.yaml         ✅ Test variant 1
+├── variant_arg249gln.yaml         ✅ Test variant 2  
+├── domain_variant_gly584arg.yaml  ✅ Test variant 3
+├── myh7_gly584arg.yaml            ✅ Test variant 4
+├── boltz-env/                     ✅ Virtual environment
+├── cluster_logs/                  📁 Will be created
+└── results/                       📁 Will be created
+
+MISSING FILES TROUBLESHOOTING
+==============================
+
+IF FILES MISSING ON CHEAHA:
+1. Check if transferred correctly:
+   ls -la ~/hcm-variant-molecule-pipeline/
+
+2. Re-transfer specific missing files:
+   scp filename bmainali@cheaha.rc.uab.edu:~/hcm-variant-molecule-pipeline/
+
+3. Check file permissions:
+   chmod +x script_name.sh
+
+4. Verify environment setup:
+   source boltz-env/bin/activate
+   boltz --help
+
+TRANSFER STATUS VERIFICATION
+============================
+RUN THIS ON CHEAHA TO VERIFY EVERYTHING IS READY:
+
+#!/bin/bash
+echo "🔍 VERIFYING CHEAHA SETUP..."
+
+# Check required files
+FILES=("boltz_production.job" "submit_hcm_variants.sh" "ssl_fix_boltz.sh" 
+       "variant_gly584arg.yaml" "variant_arg249gln.yaml" 
+       "domain_variant_gly584arg.yaml" "myh7_gly584arg.yaml")
+
+for file in "${FILES[@]}"; do
+    if [ -f "$file" ]; then
+        echo "✅ $file - FOUND"
+    else
+        echo "❌ $file - MISSING"
+    fi
+done
+
+# Check permissions
+echo ""
+echo "📋 FILE PERMISSIONS:"
+ls -la *.job *.sh *.yaml | grep -E '\.(job|sh|yaml)$'
+
+# Check environment
+echo ""
+echo "🧪 BOLTZ ENVIRONMENT:"
+source boltz-env/bin/activate 2>/dev/null
+if command -v boltz &> /dev/null; then
+    echo "✅ Boltz environment - READY"
+    boltz --version
+else
+    echo "❌ Boltz environment - NOT READY"
+fi
+
+echo ""
+echo "🎯 NEXT STEP: EMAIL CHEAHA SUPPORT FOR GPU ACCESS"
+echo "   Email: support@cheaha.rc.uab.edu"
+echo "   Subject: GPU QoS Access Request - HCM Research"
+
+READY STATE CHECKLIST
+======================
+[ ] All files transferred successfully
+[ ] Scripts are executable (chmod +x applied)
+[ ] Boltz environment activates without errors
+[ ] GPU access request sent to Cheaha support
+[ ] Ready to run: source ssl_fix_boltz.sh && ./submit_hcm_variants.sh
+
+🚀 ONCE COMPLETE: READY FOR BILLION-DOLLAR VALIDATION EXPERIMENTS! 

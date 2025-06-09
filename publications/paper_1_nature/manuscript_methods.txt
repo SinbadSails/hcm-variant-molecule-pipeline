@@ -1,0 +1,33 @@
+METHODS
+
+Data Collection and Variant Curation
+
+We assembled a comprehensive dataset of MYH7 (myosin heavy chain 7) missense variants associated with hypertrophic cardiomyopathy (HCM) from multiple sources. Clinical variant data were retrieved from ClinVar (https://www.ncbi.nlm.nih.gov/clinvar/, accessed December 2024), filtering for variants in the MYH7 gene (Gene ID: 4625) with the following criteria: (i) variant type classified as "single nucleotide variant", (ii) amino acid change annotation available in standard three-letter format, and (iii) clinical significance annotation present. This yielded 5,888 unique MYH7 missense variants covering 97.8% of the protein sequence (amino acids 2-1,935 of 1,935 total residues).
+
+Pathogenicity Prediction with AlphaMissense
+
+Variant pathogenicity scores were obtained from AlphaMissense, a deep learning model trained on protein structure and evolutionary data to predict the functional impact of missense variants (Cheng et al., Science 2023). AlphaMissense scores range from 0 to 1, with higher values indicating greater predicted pathogenicity. Scores were downloaded from the AlphaMissense database (https://zenodo.org/record/8208688) and matched to MYH7 variants using UniProt identifier P12883. Coverage was achieved for 5,711 variants (97.0% of the dataset).
+
+Structural Modeling and Confidence Assessment
+
+Protein structure was obtained from the AlphaFold Protein Structure Database (https://alphafold.ebi.ac.uk/, model AF-Q14896-F1-model_v4), representing the full-length human MYH7 structure predicted by AlphaFold2. Structural confidence was assessed using per-residue local distance difference test (pLDDT) scores, which range from 0-100 with scores >90 indicating very high confidence, 70-90 confident, 50-70 low confidence, and <50 very low confidence. pLDDT scores were extracted from the B-factor field of the PDB file using BioPython (v1.79). Coverage was obtained for 4,050 variants (68.8% of the dataset) corresponding to residues with resolved structure in the AlphaFold model.
+
+Protein Stability Calculations
+
+Protein stability changes upon mutation (ΔΔG) were calculated using the Rosetta macromolecular modeling suite (version 2024.38). The ddg_monomer application was employed with the following protocol: (i) initial structure relaxation using the Rosetta energy function with Cartesian minimization, (ii) iterative mutation and energy minimization (3 iterations per variant), and (iii) calculation of the difference in Rosetta energy units (REU) between mutant and wild-type structures. Positive ΔΔG values indicate destabilizing mutations, while negative values indicate stabilizing mutations. The threshold for significant destabilization was set at ΔΔG > 1.0 REU, and for stabilization at ΔΔG < -1.0 REU, based on established benchmarks in the literature.
+
+Statistical Analysis
+
+All statistical analyses were performed using Python (v3.11) with pandas (v2.3.0), numpy (v1.26.4), and scipy (v1.15.3). Correlations were calculated using Pearson's correlation coefficient with significance testing. Distribution normality was assessed using the Shapiro-Wilk test. For non-normal distributions, non-parametric tests (Mann-Whitney U test, Kruskal-Wallis test) were employed for group comparisons. Multiple testing correction was applied using the Benjamini-Hochberg procedure where appropriate. Statistical significance was set at α = 0.05 for all tests.
+
+Variant Classification and Prioritization
+
+Variants were classified into functional categories based on combined AlphaMissense and Rosetta ΔΔG scores: (i) High pathogenicity: AlphaMissense score >0.8, (ii) Very high pathogenicity: AlphaMissense score >0.9, (iii) Destabilizing: ΔΔG >1.0 REU, (iv) Stabilizing: ΔΔG <-1.0 REU, and (v) High-impact: AlphaMissense >0.8 AND ΔΔG >1.0 REU. These thresholds were selected based on established benchmarks for pathogenicity prediction (AlphaMissense >0.8 corresponds to "likely pathogenic") and protein stability assessment (ΔΔG >1.0 REU represents significant destabilization).
+
+Data Visualization and Reproducibility
+
+All visualizations were generated using matplotlib (v3.10.3) and seaborn (v0.13.2) with publication-quality settings. Statistical plots include 95% confidence intervals where appropriate. All analysis code and processed datasets are available at [GitHub repository URL] to ensure full reproducibility. The complete pipeline can be executed using a single command (python run_analysis.py) with all dependencies specified in the provided environment configuration file.
+
+Ethical Considerations
+
+This study utilized publicly available data from ClinVar and computational predictions, with no direct involvement of human subjects. All variant data were de-identified and analyzed in aggregate. The research was conducted in accordance with principles outlined in the Declaration of Helsinki. 

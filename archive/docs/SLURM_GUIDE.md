@@ -251,3 +251,35 @@ You'll know everything is working when:
 - ✅ Prediction confidence scores > 70%
 
 **Your HCM variant research is now supercharged with A100 GPUs!** 🚀 
+
+cat > submit_publication_jobs.sh << 'EOF'
+#!/bin/bash
+
+echo "🚀 SUBMITTING PUBLICATION JOBS FOR HCM VARIANTS"
+
+mkdir -p publication_results
+
+VARIANTS=(
+    "variant_gly584arg.yaml"
+    "variant_arg249gln.yaml"
+    "domain_variant_gly584arg.yaml"
+    "myh7_gly584arg.yaml"
+)
+
+echo "📋 Submitting ${#VARIANTS[@]} high-priority variants:"
+
+for variant in "${VARIANTS[@]}"; do
+    if [ -f "$variant" ]; then
+        echo "  ✅ Submitting: $variant"
+        sbatch slurm_boltz_publication.job "$variant"
+    else
+        echo "  ❌ File not found: $variant"
+    fi
+done
+
+echo ""
+echo "📊 Check job status with: squeue -u $USER"
+echo "📁 Results will be saved to: publication_results/"
+EOF
+
+chmod +x submit_publication_jobs.sh 
