@@ -1,0 +1,38 @@
+name: boltz2-env
+channels:
+  - conda-forge
+  - pytorch
+  - nvidia
+dependencies:
+  - python=3.10
+  - pip
+  # PyTorch with CUDA support for A100 GPUs
+  - pytorch>=2.0.0
+  - pytorch-cuda=12.1
+  - torchvision
+  - torchaudio
+  # Core scientific computing
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - seaborn
+  # ML dependencies
+  - transformers
+  - accelerate
+  - datasets
+  - tokenizers
+  - huggingface_hub
+  - safetensors
+  - einops
+  - lightning
+  - tensorboard
+  # Bioinformatics basics
+  - biopython
+  - requests
+  - pip:
+    # Install Boltz-2
+    - boltz
+    # Basic protein tools that actually work
+    - biotite
+    - py3Dmol 

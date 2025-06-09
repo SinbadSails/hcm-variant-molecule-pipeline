@@ -1,0 +1,134 @@
+#!/bin/bash
+#SBATCH --job-name=boltz_variants         ### Name of the job
+#SBATCH --nodes=1                         ### Number of nodes
+#SBATCH --ntasks=1                        ### Number of tasks
+#SBATCH --cpus-per-task=16                ### CPUs per task
+#SBATCH --mem=64G                         ### Memory required
+#SBATCH --gres=gpu:1                      ### Request 1 A100 GPU per job
+#SBATCH --partition=amperenodes           ### A100 GPU partition
+#SBATCH --time=03:00:00                   ### Max time (3 hours for safety)
+#SBATCH --output=%x_%A_%a.out             ### Output file with array info
+#SBATCH --error=%x_%A_%a.err              ### Error file with array info
+#SBATCH --array=1-5%2                     ### Run 5 jobs, max 2 concurrent
+
+### Array of YAML files to process
+YAML_FILES=(
+    "placeholder"                          # index 0 (unused)
+    "variant_gly584arg.yaml"              # index 1 - Gly584Arg (AlphaMissense = 0.9951)
+    "variant_arg249gln.yaml"              # index 2 - Arg249Gln (AlphaMissense = 0.9779)
+    "domain_variant_gly584arg.yaml"       # index 3 - Domain variant
+    "myh7_gly584arg.yaml"                 # index 4 - Alternative format
+)
+
+### Get the current YAML file based on array task ID
+YAML_FILE=${YAML_FILES[$SLURM_ARRAY_TASK_ID]}
+
+### Display job information
+echo "=========================================="
+echo "Job started at: $(date)"
+echo "Job ID: $SLURM_JOB_ID"
+echo "Array Job ID: $SLURM_ARRAY_JOB_ID"
+echo "Array Task ID: $SLURM_ARRAY_TASK_ID"
+echo "Node: $SLURMD_NODENAME"
+echo "Processing: $YAML_FILE"
+echo "=========================================="
+
+### Load required modules
+module reset
+module load CUDA/12.2.0
+module load cuDNN/8.9.2.26-CUDA-12.2.0
+module load Anaconda3
+
+### Set up local scratch for optimal I/O performance
+LOCAL_SCRATCH="/local/$USER/$SLURM_JOB_ID"
+mkdir -p $LOCAL_SCRATCH
+echo "Local scratch directory: $LOCAL_SCRATCH"
+
+### Copy input files to local scratch
+echo "Copying files to local scratch..."
+cp *.yaml $LOCAL_SCRATCH/
+cp *.pdb $LOCAL_SCRATCH/ 2>/dev/null || echo "No PDB files to copy"
+cp *.csv $LOCAL_SCRATCH/ 2>/dev/null || echo "No CSV files to copy"
+cd $LOCAL_SCRATCH
+
+### Activate conda environment
+echo "Activating conda environment..."
+conda activate hcm-pipeline
+
+### Verify Boltz installation
+echo "Verifying Boltz installation..."
+which boltz
+boltz --version || echo "Boltz version not available"
+
+### Check GPU availability
+echo "GPU Information:"
+nvidia-smi --query-gpu=name,memory.total,memory.used --format=csv,noheader
+echo ""
+
+### Create output directory for this variant
+VARIANT_NAME=$(basename $YAML_FILE .yaml)
+OUTPUT_DIR="results_${VARIANT_NAME}_${SLURM_ARRAY_TASK_ID}"
+mkdir -p $OUTPUT_DIR
+
+### Run Boltz prediction
+echo "Starting Boltz prediction for: $YAML_FILE"
+echo "Output directory: $OUTPUT_DIR"
+echo "Sampling steps: 200"
+echo ""
+
+# Run with error handling
+set -e  # Exit on any error
+
+boltz predict $YAML_FILE \
+    --use_msa_server \
+    --out_dir $OUTPUT_DIR \
+    --sampling_steps 200 \
+    --verbose 2>&1 | tee boltz_${VARIANT_NAME}_${SLURM_ARRAY_TASK_ID}.log
+
+### Check if prediction was successful
+if [ $? -eq 0 ]; then
+    echo "✅ Boltz prediction completed successfully for $YAML_FILE"
+else
+    echo "❌ Boltz prediction failed for $YAML_FILE"
+    exit 1
+fi
+
+### Copy results back to original directory
+echo "Copying results back to submission directory..."
+RESULT_DIR="$SLURM_SUBMIT_DIR/results_${VARIANT_NAME}"
+mkdir -p $RESULT_DIR
+
+cp -r $OUTPUT_DIR/* $RESULT_DIR/
+cp boltz_${VARIANT_NAME}_${SLURM_ARRAY_TASK_ID}.log $RESULT_DIR/
+cp *.out $SLURM_SUBMIT_DIR/ 2>/dev/null || true
+cp *.err $SLURM_SUBMIT_DIR/ 2>/dev/null || true
+
+### Create summary
+echo "Creating summary..."
+cat > $RESULT_DIR/prediction_summary_${SLURM_ARRAY_TASK_ID}.txt << EOF
+Boltz Prediction Summary
+========================
+Variant: $VARIANT_NAME
+YAML File: $YAML_FILE
+Job ID: $SLURM_JOB_ID
+Array Task ID: $SLURM_ARRAY_TASK_ID
+Node: $SLURMD_NODENAME
+Start Time: $(date)
+Status: Completed Successfully
+
+Files Generated:
+$(ls -la $OUTPUT_DIR/)
+
+GPU Used:
+$(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader)
+EOF
+
+### Clean up local scratch
+echo "Cleaning up local scratch..."
+cd $SLURM_SUBMIT_DIR
+rm -rf $LOCAL_SCRATCH
+
+echo "=========================================="
+echo "Job completed successfully at: $(date)"
+echo "Results saved to: $RESULT_DIR"
+echo "==========================================" 

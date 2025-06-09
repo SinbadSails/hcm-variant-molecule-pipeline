@@ -1,0 +1,9 @@
+sequences:
+  - protein:
+      id: A
+      sequence: MTTQAPTFTQPLQSVVGDQPTVGQHEYTVQAQTTRQVSMSSSSRSHSIERTQ
+
+prediction_config:
+  recycling_steps: 3
+  sampling_steps: 50  # Reduced for faster testing
+  diffusion_samples: 1 
