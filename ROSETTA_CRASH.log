@@ -1,0 +1,139 @@
+##############################################################################################################
+#
+# Rosetta crash log. Please submit the contents of this file to http://crash.rosettacommons.org/
+# or use the script Rosetta/main/source/scripts/python/public/report_crashes.py
+#
+
+[START_CRASH_REPORT]
+[ROSETTA_VERSION]: 2024.38+HEAD.200d5f9a7d
+[COMMIT_DATE]: 2024-09-11T17:31:36
+[APPLICATION]: UNKNOWN APPLICATION
+[MODE]: Release
+[EXTRAS]: cxx11thread serialization 
+[OS]: GNU/Linux
+[COMPILER]: GCC version "9.4.0"
+[STDLIB]: libstdc++ version 20210601
+[START_OPTIONS]
+NO OPTIONS SPECIFIED
+
+[END_OPTIONS]
+
+[START_BACKTRACE]: RAW_LIBC
+/usr/local/bin/libutility.so(backtrace_string[abi:cxx11](int)+0x5a) [0x7ffff6e36f0a]
+/usr/local/bin/libutility.so(utility::excn::Exception::Exception(char const*, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)+0x103) [0x7ffff6e81313]
+/usr/local/bin/libutility.so(+0x1f3056) [0x7ffff6e11056]
+/usr/local/bin/libutility.so(utility::options::OptionCollection::load_option_cl(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::list<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)+0x12a) [0x7ffff6ff6c5a]
+/usr/local/bin/libutility.so(utility::options::OptionCollection::load(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::list<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&, bool)+0x13b) [0x7ffff6ff8d6b]
+/usr/local/bin/libutility.so(utility::options::OptionCollection::load(int, char* const*, bool)+0x17d) [0x7ffff6ff974d]
+/usr/local/bin/libcore.6.so(core::init::init_options(int, char**)+0x24) [0x7ffffc601ec4]
+/usr/local/bin/libcore.6.so(core::init::init(int, char**)+0x31) [0x7ffffc6065f1]
+/usr/local/bin/ddg_monomer(+0xdeda) [0x555555561eda]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7ffff6804083]
+/usr/local/bin/ddg_monomer(+0x11c7e) [0x555555565c7e]
+
+[END_BACKTRACE]
+
+[FILE]: src/utility/options/OptionCollection.cc
+[LINE]: 1467
+[START_MESSAGE]
+Option matching -ddg:scorefile not found in command line top-level context
+Did you mean:
+	 -chemically_conjugated_docking:scorefilter
+	 -flexPepDocking:score_filter
+	 -out:file:scorefile
+	 -run:no_scorefile
+
+
+[END_MESSAGE]
+[END_CRASH_REPORT]
+
+##############################################################################################################
+#
+# Rosetta crash log. Please submit the contents of this file to http://crash.rosettacommons.org/
+# or use the script Rosetta/main/source/scripts/python/public/report_crashes.py
+#
+
+[START_CRASH_REPORT]
+[ROSETTA_VERSION]: 2024.38+HEAD.200d5f9a7d
+[COMMIT_DATE]: 2024-09-11T17:31:36
+[APPLICATION]: UNKNOWN APPLICATION
+[MODE]: Release
+[EXTRAS]: cxx11thread serialization 
+[OS]: GNU/Linux
+[COMPILER]: GCC version "9.4.0"
+[STDLIB]: libstdc++ version 20210601
+[START_OPTIONS]
+NO OPTIONS SPECIFIED
+
+[END_OPTIONS]
+
+[START_BACKTRACE]: RAW_LIBC
+/usr/local/bin/libutility.so(backtrace_string[abi:cxx11](int)+0x5a) [0x7ffff6e36f0a]
+/usr/local/bin/libutility.so(utility::excn::Exception::Exception(char const*, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)+0x103) [0x7ffff6e81313]
+/usr/local/bin/libutility.so(+0x1f3056) [0x7ffff6e11056]
+/usr/local/bin/libutility.so(utility::options::OptionCollection::load_option_cl(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::list<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)+0x12a) [0x7ffff6ff6c5a]
+/usr/local/bin/libutility.so(utility::options::OptionCollection::load(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::list<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&, bool)+0x13b) [0x7ffff6ff8d6b]
+/usr/local/bin/libutility.so(utility::options::OptionCollection::load(int, char* const*, bool)+0x17d) [0x7ffff6ff974d]
+/usr/local/bin/libcore.6.so(core::init::init_options(int, char**)+0x24) [0x7ffffc601ec4]
+/usr/local/bin/libcore.6.so(core::init::init(int, char**)+0x31) [0x7ffffc6065f1]
+/usr/local/bin/ddg_monomer(+0xdeda) [0x555555561eda]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7ffff6804083]
+/usr/local/bin/ddg_monomer(+0x11c7e) [0x555555565c7e]
+
+[END_BACKTRACE]
+
+[FILE]: src/utility/options/OptionCollection.cc
+[LINE]: 1467
+[START_MESSAGE]
+Option matching -pack:threads not found in command line top-level context
+Did you mean:
+	 -gpu:threads
+	 -jd3:nthreads
+	 -packstat:threads
+	 -threadsc
+
+
+[END_MESSAGE]
+[END_CRASH_REPORT]
+
+##############################################################################################################
+#
+# Rosetta crash log. Please submit the contents of this file to http://crash.rosettacommons.org/
+# or use the script Rosetta/main/source/scripts/python/public/report_crashes.py
+#
+
+[START_CRASH_REPORT]
+[ROSETTA_VERSION]: 2020.08+release.cb1caba
+[COMMIT_DATE]: 2020-02-22T18:49:33.865989
+[APPLICATION]: UNKNOWN APPLICATION
+[MODE]: Release
+[EXTRAS]: mpi (OpenMPI 3.1.1) 
+[OS]: GNU/Linux
+[COMPILER]: GCC version "7.3.0"
+[STDLIB]: libstdc++ version 20180125
+[START_OPTIONS]
+NO OPTIONS SPECIFIED
+
+[END_OPTIONS]
+
+[START_BACKTRACE]: RAW_LIBC
+/share/apps/rc/software/Rosetta/3.12-foss-2018b/lib/libcore.6.so(backtrace_string[abi:cxx11](int)+0x43) [0x2aaab35c5d93]
+/share/apps/rc/software/Rosetta/3.12-foss-2018b/lib/libutility.so(utility::excn::Exception::Exception(char const*, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)+0xd0) [0x2aaab82a6570]
+/share/apps/rc/software/Rosetta/3.12-foss-2018b/lib/libutility.so(utility::options::OptionCollection::load(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::list<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&, bool)+0x748) [0x2aaab81eba08]
+/share/apps/rc/software/Rosetta/3.12-foss-2018b/lib/libutility.so(utility::options::OptionCollection::load(int, char* const*, bool)+0x1ca) [0x2aaab81ebf3a]
+/share/apps/rc/software/Rosetta/3.12-foss-2018b/lib/libcore.6.so(core::init::init_options(int, char**)+0x1f) [0x2aaab361346f]
+/share/apps/rc/software/Rosetta/3.12-foss-2018b/lib/libcore.6.so(core::init::init(int, char**)+0x29) [0x2aaab3617059]
+ddg_monomer.mpi.linuxgccrelease() [0x40aa55]
+/lib64/libc.so.6(__libc_start_main+0xf5) [0x2aaab8f67555]
+ddg_monomer.mpi.linuxgccrelease() [0x40ecd8]
+
+[END_BACKTRACE]
+
+[FILE]: src/utility/options/OptionCollection.cc
+[LINE]: 315
+[START_MESSAGE]
+ERROR: Unused "free" argument specified: MYH7_native.pdb
+
+[END_MESSAGE]
+[END_CRASH_REPORT]
+
