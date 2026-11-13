@@ -1,0 +1,180 @@
+{
+  "commit": "17686a4ba92229828f2f527ac0e3a8d408bf8751",
+  "csv_source": {
+    "browser_url": "https://github.com/SinbadSails/hcm-variant-molecule-pipeline/blob/17686a4ba92229828f2f527ac0e3a8d408bf8751/MYH7_variants_final_annotated.csv",
+    "bytes": 615395,
+    "filename": "MYH7_variants_final_annotated.csv",
+    "sha256": "91e55092f339747d393471e8abb6cdaf87af0f88a65a6a60741fdbb1aae151bd",
+    "url": "https://raw.githubusercontent.com/SinbadSails/hcm-variant-molecule-pipeline/17686a4ba92229828f2f527ac0e3a8d408bf8751/MYH7_variants_final_annotated.csv"
+  },
+  "limits": [
+    "No sequence alignment or residue-mapping verification is performed.",
+    "No simulation is executed or assessed for physical validity.",
+    "No clinical, mechanistic or commercial conclusions are established."
+  ],
+  "official_uniprot_confirmations": [
+    {
+      "accession": "P12883",
+      "bytes": 237808,
+      "entry_audit": {
+        "entryVersion": 267,
+        "firstPublicDate": "1989-10-01",
+        "lastAnnotationUpdateDate": "2026-11-04",
+        "lastSequenceUpdateDate": "2005-12-06",
+        "sequenceVersion": 5
+      },
+      "entry_name": "MYH7_HUMAN",
+      "entry_url": "https://www.uniprot.org/uniprotkb/P12883/entry",
+      "gene_names": [
+        "MYH7"
+      ],
+      "recommended_protein_name": "Myosin-7",
+      "sha256": "48b75b9eaf114fcc5b7c203826b6d67eda2344577edc13edaab2358f41d3fd23",
+      "url": "https://rest.uniprot.org/uniprotkb/P12883.json",
+      "version_note": "UniProt endpoints are live; entry versions and hashes record the response used here and may change on a later run."
+    },
+    {
+      "accession": "Q14896",
+      "bytes": 120513,
+      "entry_audit": {
+        "entryVersion": 233,
+        "firstPublicDate": "1999-07-15",
+        "lastAnnotationUpdateDate": "2026-11-04",
+        "lastSequenceUpdateDate": "2012-11-28",
+        "sequenceVersion": 4
+      },
+      "entry_name": "MYPC3_HUMAN",
+      "entry_url": "https://www.uniprot.org/uniprotkb/Q14896/entry",
+      "gene_names": [
+        "MYBPC3"
+      ],
+      "recommended_protein_name": "Myosin-binding protein C, cardiac-type",
+      "sha256": "4fa7092133af051e4bfad833c5ddd87565f86e9bf5cafca8ffb2be9656e7770d",
+      "url": "https://rest.uniprot.org/uniprotkb/Q14896.json",
+      "version_note": "UniProt endpoints are live; entry versions and hashes record the response used here and may change on a later run."
+    }
+  ],
+  "pdb_metadata_check": {
+    "expected_uniprot": "P12883",
+    "metadata_records": [
+      {
+        "accessions": [],
+        "line": 2,
+        "record_type": "TITLE",
+        "text": "TITLE     ALPHAFOLD MONOMER V2.0 PREDICTION FOR MYOSIN-BINDING PROTEIN C,       "
+      },
+      {
+        "accessions": [
+          "Q14896"
+        ],
+        "line": 3,
+        "record_type": "TITLE",
+        "text": "TITLE    2 CARDIAC-TYPE (Q14896)                                                "
+      },
+      {
+        "accessions": [
+          "Q14896"
+        ],
+        "line": 38,
+        "record_type": "DBREF",
+        "text": "DBREF  XXXX A    1  1274  UNP    Q14896   MYPC3_HUMAN      1   1274             "
+      }
+    ],
+    "observed_accessions": [
+      "Q14896"
+    ],
+    "scope": "Metadata accession check only; sequence identity is not verified.",
+    "status": "mismatch"
+  },
+  "pdb_source": {
+    "browser_url": "https://github.com/SinbadSails/hcm-variant-molecule-pipeline/blob/17686a4ba92229828f2f527ac0e3a8d408bf8751/MYH7_native.pdb",
+    "bytes": 814292,
+    "filename": "MYH7_native.pdb",
+    "sha256": "69f0cf52390bbd962dc65d8cb1b4d3679bc3294bdfe4bb4b96fe3ef949e850f0",
+    "url": "https://raw.githubusercontent.com/SinbadSails/hcm-variant-molecule-pipeline/17686a4ba92229828f2f527ac0e3a8d408bf8751/MYH7_native.pdb"
+  },
+  "repository": "SinbadSails/hcm-variant-molecule-pipeline",
+  "schema_version": 1,
+  "variant_csv_check": {
+    "distinct_nonblank_protein_changes": 2877,
+    "examples": [
+      {
+        "distinct_ddg_values": [
+          "-0.01",
+          "1.98"
+        ],
+        "protein_change": "Ala1006Thr"
+      },
+      {
+        "distinct_ddg_values": [
+          "-2.64",
+          "2.53"
+        ],
+        "protein_change": "Ala100Thr"
+      },
+      {
+        "distinct_ddg_values": [
+          "-2.2",
+          "1.67"
+        ],
+        "protein_change": "Ala100Val"
+      },
+      {
+        "distinct_ddg_values": [
+          "-0.61",
+          "-0.44"
+        ],
+        "protein_change": "Ala1012Asp"
+      },
+      {
+        "distinct_ddg_values": [
+          "1.56",
+          "1.8"
+        ],
+        "protein_change": "Ala1012Thr"
+      },
+      {
+        "distinct_ddg_values": [
+          "-1.19",
+          "0.4"
+        ],
+        "protein_change": "Ala1023Thr"
+      },
+      {
+        "distinct_ddg_values": [
+          "-1.44",
+          "3.16"
+        ],
+        "protein_change": "Ala1023Val"
+      },
+      {
+        "distinct_ddg_values": [
+          "1.74",
+          "2.35"
+        ],
+        "protein_change": "Ala1051Glu"
+      },
+      {
+        "distinct_ddg_values": [
+          "-1.75",
+          "2.09"
+        ],
+        "protein_change": "Ala1051Thr"
+      },
+      {
+        "distinct_ddg_values": [
+          "1.11",
+          "1.78"
+        ],
+        "protein_change": "Ala1051Val"
+      }
+    ],
+    "examples_limit": 10,
+    "interpretation": "Multiple distinct ddG values for a protein change are provenance ambiguities, not proof of invalid scores. Replicates, structures or protocols may differ; raw outputs and run metadata are needed.",
+    "protein_changes_with_multiple_distinct_ddg_values": 2871,
+    "rows": 5888,
+    "rows_with_blank_protein_change": 0,
+    "rows_with_invalid_ddg": 0,
+    "rows_with_missing_ddg": 0
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "checks": [
+    {
+      "case": "real trajectory loaded",
+      "passed": true,
+      "detail": "01 / 51"
+    },
+    {
+      "case": "frame scrub synchronizes RMSD",
+      "passed": true,
+      "detail": {
+        "displayed": 0.816,
+        "expected": 0.81553466
+      }
+    },
+    {
+      "case": "playback advances frames",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "case": "drag rotates rendered backbone",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "case": "CSV includes every frame and units",
+      "passed": true,
+      "detail": {
+        "lines": 52
+      }
+    },
+    {
+      "case": "no horizontal overflow at 320px",
+      "passed": true,
+      "detail": {
+        "w": 320,
+        "s": 320
+      }
+    },
+    {
+      "case": "no horizontal overflow at 736px",
+      "passed": true,
+      "detail": {
+        "w": 736,
+        "s": 736
+      }
+    },
+    {
+      "case": "no horizontal overflow at 1280px",
+      "passed": true,
+      "detail": {
+        "w": 1280,
+        "s": 1280
+      }
+    },
+    {
+      "case": "no browser runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "scope": "Browser interactions against the bundled real short CPU trajectory. No clinical or long-run MD validation."
+}
