@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "validator_numpy_version": "2.5.4",
+  "checks": [
+    "shape, finite values, unique residues",
+    "units and actual timestamps",
+    "duration and sampling match completed steps and timestep",
+    "recorded generator SHA256",
+    "independent Horn quaternion RMSD recomputation",
+    "direct RMSD of aligned coordinates",
+    "centered frames",
+    "synthetic rigid rotation and translation removed",
+    "reflection not accepted as proper rotation"
+  ],
+  "source_pdb_verification": {
+    "status": "passed",
+    "expected_sha256": "d4a6812d8951cf6594e6a0763f089e35f5a80b62acb3c117b2c5565228a7b161",
+    "actual_sha256": "d4a6812d8951cf6594e6a0763f089e35f5a80b62acb3c117b2c5565228a7b161",
+    "path": "/workspace/cheaha/inputs/1UBQ.pdb"
+  },
+  "generator_verification": {
+    "status": "passed",
+    "sha256": "747ee32ef3cff3a0791b528ad63c6e17e13f8b79ab7aea6e974eeb20121f6116"
+  },
+  "independent_rmsd_method": "Horn quaternion largest-eigenvalue method (not generator Kabsch SVD)",
+  "maximum_rmsd_difference_angstrom": 2.1878789317184617e-07,
+  "maximum_aligned_direct_rmsd_difference_angstrom": 1.1801379967701919e-07,
+  "synthetic_rigid_transform_rmsd_angstrom": 1.9156532430834144e-15,
+  "frame_count": 51,
+  "residue_count": 76,
+  "first_time_ps": 0.4,
+  "last_time_ps": 2.4,
+  "minimum_rmsd_angstrom": 0.0,
+  "maximum_rmsd_angstrom": 0.81743848,
+  "demo_json_bytes": 128606,
+  "demo_json_sha256": "2c23e2b07fd9e296e19b0a5ef27304b886fc120146532401a5c8a4b992ecaa91",
+  "reproduction_command_template": "python scripts/generate_demo.py --pdb PATH_TO_1UBQ.pdb --output data/demo.json --seed 1001 --threads 2 --minimize-iterations 200 --equilibration-steps 200 --production-steps 1000 --sample-every-steps 20 --max-wall-seconds 120.0",
+  "command_note": "Template reconstructed from recorded settings; substitute a local PDB matching source_pdb_sha256. No MD was run by this validator.",
+  "recorded_historical_generation_command": "/tmp/cheaha-openmm-venv/bin/python /workspace/projects/protein-motion-lab/scripts/generate_demo.py --pdb /workspace/cheaha/inputs/1UBQ.pdb --output /workspace/projects/protein-motion-lab/data/demo.json --seed 1001 --threads 2 --minimize-iterations 200 --equilibration-steps 200 --production-steps 1000 --sample-every-steps 20 --max-wall-seconds 120",
+  "historical_command_note": "Original local invocation, available only for the bundled dataset identified by its SHA256."
+}

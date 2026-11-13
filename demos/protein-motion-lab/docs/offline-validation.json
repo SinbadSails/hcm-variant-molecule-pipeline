@@ -1,0 +1,10 @@
+{
+  "offline_html_content": true,
+  "frame_count": 51,
+  "duplicate_data_ids": false,
+  "external_requests": [],
+  "runtime_errors": [],
+  "last_time_ps": 2.4,
+  "method": "Playwright set_content in offline Chromium context",
+  "direct_file_navigation": "Not verified: managed Chromium blocks file URLs; no browser policy was changed."
+}

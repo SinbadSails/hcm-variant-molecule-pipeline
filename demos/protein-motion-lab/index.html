@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f3ed">
+  <meta name="description" content="Explore a real, short ubiquitin molecular dynamics trajectory, one frame at a time.">
+  <title>Protein Motion Lab · Ubiquitin</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Protein Motion Lab home">
+        <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true"><path d="M8 25 17 9l11 15"/><circle cx="8" cy="25" r="3"/><circle cx="17" cy="9" r="3"/><circle cx="28" cy="24" r="3"/></svg>
+        <span>Protein Motion <strong>Lab</strong></span>
+      </a>
+      <span class="header-note">An interactive research notebook</span>
+    </header>
+
+    <main>
+      <section class="introduction" aria-labelledby="page-title">
+        <div class="eyebrow"><span class="tiny-rule"></span> Molecular dynamics · Study 001</div>
+        <div class="title-row">
+          <h1 id="page-title">Ubiquitin, in motion.</h1>
+          <span class="study-tag"><span></span> Short simulation</span>
+        </div>
+        <p class="intro-copy">A protein is more than a single structure. Follow a short, real simulation to see how its backbone moves—and how that motion is measured.</p>
+      </section>
+
+      <section class="lab-grid" aria-label="Trajectory explorer">
+        <div class="viewer-panel panel">
+          <div class="panel-heading">
+            <div><span class="panel-number">01</span><h2>Molecular view</h2></div>
+            <span id="residue-count" class="quiet-label">Cα backbone</span>
+          </div>
+          <div class="molecule-stage" id="molecule-stage">
+            <canvas id="molecule-canvas" tabindex="0" role="img" aria-label="Interactive C-alpha protein backbone. Drag to rotate. Arrow keys rotate, plus and minus zoom, R resets the view, and space plays or pauses." aria-describedby="viewer-description"></canvas>
+            <div class="stage-topline"><span class="stage-caption">Cα backbone <span>·</span> solvent hidden</span><span id="frame-counter" class="frame-counter">— / —</span></div>
+            <div class="stage-controls" role="group" aria-label="Molecular view controls">
+              <button id="zoom-in" type="button" class="icon-button" aria-label="Zoom in" title="Zoom in (+)"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg></button>
+              <button id="zoom-out" type="button" class="icon-button" aria-label="Zoom out" title="Zoom out (−)"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12"/></svg></button>
+              <span class="control-divider"></span>
+              <button id="reset-view" type="button" class="icon-button" aria-label="Reset molecular orientation and zoom" title="Reset view (R)"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a6.5 6.5 0 1 1-.2 5M4 3v4h4"/></svg></button>
+            </div>
+            <div class="stage-bottomline"><span id="viewer-description">Drag to rotate <span>·</span> + / − to zoom</span><span class="chain-legend"><i></i> N <span>→</span> C <i></i></span></div>
+            <div class="loading-overlay" id="loading-overlay" role="status"><span class="loading-orbit" aria-hidden="true"></span><p id="loading-message">Opening the trajectory…</p><label class="text-button fallback-open" for="trajectory-file" role="button" tabindex="0">Choose a trajectory file</label></div>
+          </div>
+          <div class="timeline-area">
+            <div class="playback-row">
+              <button id="play-toggle" class="play-button" type="button" aria-label="Play trajectory" disabled><svg id="play-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 9 6-9 6Z"/></svg><span id="play-label">Play</span></button>
+              <div class="time-readout"><span id="current-time">—</span><span class="unit">ps</span><span class="time-separator">/</span><span id="end-time">— ps</span></div>
+              <label class="speed-label">Playback <select id="playback-speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
+            </div>
+            <label for="timeline" class="sr-only">Simulation frame</label>
+            <input id="timeline" type="range" min="0" max="0" value="0" step="1" disabled aria-valuetext="Trajectory loading">
+            <div class="timeline-labels"><span id="start-time">— ps</span><span>Simulation time</span><span id="last-time">— ps</span></div>
+          </div>
+        </div>
+
+        <aside class="measurement-panel panel" aria-labelledby="measurement-title">
+          <div class="panel-heading"><div><span class="panel-number">02</span><h2 id="measurement-title">A measure of motion</h2></div></div>
+          <div class="measurement-body">
+            <div class="metric-label">Backbone RMSD <span class="small-dot"></span></div>
+            <div class="metric-readout"><span id="rmsd-value">—</span><span>Å</span></div>
+            <p class="metric-subtitle">from the first displayed frame</p>
+            <div class="chart-wrap"><canvas id="rmsd-chart" tabindex="0" role="img" aria-label="Backbone RMSD in angstroms plotted against simulation time in picoseconds. Click or use left and right arrow keys to select a frame."></canvas></div>
+            <p class="chart-hint">Select a point to inspect that moment.</p>
+            <div class="measurement-explanation"><span class="note-marker">i</span><p><strong>What does this tell us?</strong> RMSD measures the root-mean-square displacement of corresponding Cα atoms after alignment. A larger value means a greater change in shape—not necessarily a loss of function.</p></div>
+            <div class="scope-note"><span class="eyebrow">Keep the timescale in mind</span><p>This short trajectory demonstrates molecular motion and its analysis. It cannot establish long-term stability or a biological mechanism.</p></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="study-footer" aria-label="Study information">
+        <div class="study-fact"><span class="fact-label">MOLECULE</span><span id="protein-name">Ubiquitin</span></div>
+        <div class="study-fact"><span class="fact-label">DISPLAYED INTERVAL</span><span id="sampled-interval">—</span></div>
+        <div class="study-fact"><span class="fact-label">REPRESENTATION</span><span>One point per amino acid</span></div>
+        <button id="export-csv" type="button" class="export-button" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m-4-4 4 4 4-4M4 13v4h12v-4"/></svg>Export measurements<span class="quiet-label">CSV</span></button>
+      </section>
+
+      <details class="provenance panel" id="provenance">
+        <summary><span><span class="panel-number">03</span>About this simulation<span class="summary-hint">Source, method & limitations</span></span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5"/></svg></summary>
+        <div class="provenance-content">
+          <p class="provenance-intro">The moving structure comes from a computed molecular dynamics trajectory. Only protein Cα atoms are shown; water and other atoms may be present in the underlying simulation. Coordinates are centered for viewing.</p>
+          <dl id="metadata-list" class="metadata-grid"></dl>
+          <div id="metadata-notes" class="metadata-notes"></div>
+          <div class="provenance-actions"><label class="text-button" for="trajectory-file" role="button" tabindex="0">Open another trajectory <span aria-hidden="true">↗</span></label><span class="quiet-label">Use a compatible trajectory data file.</span></div>
+        </div>
+      </details>
+      <input id="trajectory-file" type="file" accept=".json,application/json" class="sr-only" tabindex="-1" aria-label="Open trajectory data file">
+      <p id="app-status" class="sr-only" role="status" aria-live="polite"></p>
+    </main>
+    <footer class="site-footer"><span>Protein Motion Lab</span><span>A software demonstration · Short trajectory, carefully interpreted.</span></footer>
+  </div>
+  <script id="demo-data" type="application/json"></script>
+</body>
+</html>
